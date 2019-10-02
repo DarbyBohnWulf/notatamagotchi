@@ -8,15 +8,29 @@ class Tamagotchi {
     this.face = game.faces[0];
   }
   live() {
-    if (game.timeElapsed % 10 === 0) {
+    if (game.timeElapsed % 7 === 0) {
       this.hunger--;
-    } else if (game.timeElapsed % 20 === 0) {
+    } else if (game.timeElapsed % 9 === 0) {
       this.hunger--;
-      this.sleepiness--;
-    } else if (game.timeElapsed % 25 === 0) {
+      this.boredom--;
+    } else if (game.timeElapsed % 16 === 0) {
       this.hunger--;
       this.sleepiness--;
       this.boredom--;
+    }
+    this.getOlder();
+  }
+  getOlder() {
+    if (game.timeElapsed >= 100) {
+      this.die();
+    } else if (game.timeElapsed >= 70) {
+      this.face = game.faces[7];
+    } else if (game.timeElapsed >= 50) {
+      this.face = game.faces[5];
+    } else if (game.timeElapsed >= 30) {
+      this.face = game.faces[3];
+    } else if (game.timeElapsed >= 10) {
+      this.face = game.faces[1];
     }
   }
 }
