@@ -8,4 +8,13 @@ class Tamagotchi {
   }
 }
 
-const test = new Tamagotchi();
+const game = {
+
+}
+
+document.querySelector('form').addEventListener('submit', e => {
+  const name = document.querySelector('#name');
+  const bday = document.querySelector('#birthdate');
+  e.preventDefault();
+  console.log(name.value, bday.value);
+})
