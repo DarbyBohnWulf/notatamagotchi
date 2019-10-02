@@ -7,6 +7,18 @@ class Tamagotchi {
     this.age = 0;
     this.face = game.faces[0];
   }
+  live() {
+    if (game.timeElapsed % 10 === 0) {
+      this.hunger--;
+    } else if (game.timeElapsed % 20 === 0) {
+      this.hunger--;
+      this.sleepiness--;
+    } else if (game.timeElapsed % 25 === 0) {
+      this.hunger--;
+      this.sleepiness--;
+      this.boredom--;
+    }
+  }
 }
 
 const game = {
@@ -72,7 +84,7 @@ const game = {
   },
   updateDisplay() {
     game.tamaElem.textContent = game._tamaSan.face;
-    this.updateMeters();
+    game.updateMeters();
   },
   addNameListener(elem) {
     elem.addEventListener('submit', e => {
@@ -84,7 +96,7 @@ const game = {
   tick() {
     game.updateDisplay();
     game.timeElapsed++;
-    // game._tamaSan.live();
+    game._tamaSan.live();
   }
 }
 
