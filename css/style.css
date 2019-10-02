@@ -13,11 +13,24 @@ header {
 }
 
 main {
+    /* display: flex;
+    flex-direction: column; */
     flex-grow: 4;
+    background: url('../images/pink-pixel-urban-nightscape.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* height: 90vw;
+    width: 90vw;
+    width: 75%; */
 }
 
 #game p {
     font-size: 13em;
+}
+
+#display {
+    
 }
 
 footer {
