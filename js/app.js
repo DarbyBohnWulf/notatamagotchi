@@ -27,12 +27,16 @@ class Tamagotchi {
     if (game.timeElapsed >= 100) {
       this.die();
     } else if (game.timeElapsed >= 70) {
+      this.age++
       this.face = game.faces[7];
     } else if (game.timeElapsed >= 50) {
+      this.age++
       this.face = game.faces[5];
     } else if (game.timeElapsed >= 30) {
+      this.age++
       this.face = game.faces[3];
     } else if (game.timeElapsed >= 10) {
+      this.age++
       this.face = game.faces[1];
     }
   }
