@@ -33,6 +33,11 @@ class Tamagotchi {
       this.face = game.faces[1];
     }
   }
+  die() {
+    this.face = game.faces[10];
+    clearInterval(game._timer);
+    game.updateDisplay();
+  }
 }
 
 const game = {
@@ -46,7 +51,7 @@ const game = {
   tamaElem: document.querySelector('#display p'),
   _tamaSan: undefined,
   faces: [
-    '👶','👧','🧒','👦','👩','🧑','👨','👵','🧓','👴'
+    '👶','👧','🧒','👦','👩','🧑','👨','👵','🧓','👴','💀'
   ],
   // a setter to trigger stat display on creation of pet
   set tamaSan(tama) {
