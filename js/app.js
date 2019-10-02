@@ -9,12 +9,21 @@ class Tamagotchi {
 }
 
 const game = {
-
+  playerName: '',
+  playerBirthdate: '',
+  timer: null,
+  tamaSan: undefined,
+  birthTamagotchi() {
+    this.tamaSan = new Tamagotchi();
+  },
+  beginTimer() {},
+  startGame() {}
 }
 
 document.querySelector('form').addEventListener('submit', e => {
+  e.preventDefault();
   const name = document.querySelector('#name');
   const bday = document.querySelector('#birthdate');
-  e.preventDefault();
   console.log(name.value, bday.value);
+  game.birthTamagotchi();
 })
