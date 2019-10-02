@@ -1,22 +1,25 @@
 class Tamagotchi {
   constructor(name) {
     this.name = name ? name : 'Tamago Jūnin';
-    this.hunger = 6;
-    this.boredom = 6;
-    this.sleepiness = 6;
+    this.hunger = 4;
+    this.boredom = 4;
+    this.sleepiness = 4;
     this.age = 0;
     this.face = game.faces[0];
   }
   live() {
+    if (game._tamaSan.hunger >= 10 || game._tamaSan.sleepiness >= 10 || game._tamaSan.boredom >= 10) {
+      this.die();
+    }
     if (game.timeElapsed % 7 === 0) {
-      this.hunger--;
+      this.hunger++;
     } else if (game.timeElapsed % 9 === 0) {
-      this.hunger--;
-      this.boredom--;
+      this.hunger++;
+      this.boredom++;
     } else if (game.timeElapsed % 16 === 0) {
-      this.hunger--;
-      this.sleepiness--;
-      this.boredom--;
+      this.hunger++;
+      this.sleepiness++;
+      this.boredom++;
     }
     this.getOlder();
   }
@@ -122,4 +125,17 @@ const game = {
 document.querySelector('form').addEventListener('submit', e => {
   e.preventDefault();
   game.initialize();
+})
+
+document.querySelector('#feed').addEventListener('click', e => {
+  game._tamaSan.hunger--;
+  game.updateMeters;
+})
+document.querySelector('#lights').addEventListener('click', e => {
+  game._tamaSan.sleepiness--;
+  game.updateMeters;
+})
+document.querySelector('#play').addEventListener('click', e => {
+  game._tamaSan.boredom--;
+  game.updateMeters;
 })
