@@ -1,3 +1,4 @@
+
 class Tamagotchi {
   constructor(name) {
     this.name = name ? name : 'Tamago Jūnin';
@@ -6,11 +7,20 @@ class Tamagotchi {
     this.sleepiness = 4;
     this.age = 0;
     this.face = game.faces[0];
+    this.feeding = false;
+    this.asleep = false;
+    this.playing = false;
   }
   live() {
     if (game._tamaSan.hunger >= 10 || game._tamaSan.sleepiness >= 10 || game._tamaSan.boredom >= 10) {
       this.die();
     }
+    if (this.feeding && this.hunger > 1) this.hunger--;
+    if (this.asleep && this.sleepiness > 1) this.sleepiness--;
+    if (this.playing && this.boredom > 1) this.boredom--;
+    this.feeding = false;
+    this.asleep = false;
+    this.playing = false;
     if (game.timeElapsed % 7 === 0) {
       this.hunger++;
     } else if (game.timeElapsed % 9 === 0) {
@@ -24,26 +34,45 @@ class Tamagotchi {
     this.getOlder();
   }
   getOlder() {
-    if (game.timeElapsed >= 100) {
+    if (game.timeElapsed === 100) {
       this.die();
-    } else if (game.timeElapsed >= 70) {
-      this.age++
-      this.face = game.faces[7];
-    } else if (game.timeElapsed >= 50) {
-      this.age++
-      this.face = game.faces[5];
-    } else if (game.timeElapsed >= 30) {
-      this.age++
-      this.face = game.faces[3];
-    } else if (game.timeElapsed >= 10) {
-      this.age++
-      this.face = game.faces[1];
+    } else if (game.timeElapsed === 70) {
+      this.growUp();
+    } else if (game.timeElapsed === 50) {
+      this.growUp();
+    } else if (game.timeElapsed === 30) {
+      this.growUp();
+    } else if (game.timeElapsed === 3) {
+      this.growUp();
     }
   }
   die() {
-    this.face = game.faces[10];
+    this.face = game.faces[5];
     clearInterval(game._timer);
+    this.shakeUpDown();
     game.updateDisplay();
+  }
+  growUp() {
+    this.age++;
+    this.shakeSideSide();
+    this.face = game.faces[this.age];
+  }
+  shakeSideSide() {
+    game.tamaElem.animate({
+      transform: ['translateX(13px)','translateX(-13px)']
+      // { transform: 'translateX(3em)'}
+    }, {
+      duration: 500,
+      iterations: 3
+    })
+  }
+  shakeUpDown() {
+    game.tamaElem.animate({
+      transform: ['translateY(13px)','translateY(-13px)']
+    },{
+      duration: 500,
+      iterations: 3
+    })
   }
 }
 
@@ -52,13 +81,17 @@ const game = {
   playerBirthdate: '',
   _timer: null,
   timeElapsed: 0,
+  selfElem: document.querySelector('#game'), //
+  form: document.querySelector('#game form'),
+  name: document.querySelector('#name'),
+  bday: document.querySelector('#birthdate'),
   hunger: document.querySelector('#hunger'),
   sleep: document.querySelector('#sleepiness'),
   boredom: document.querySelector('#boredom'),
   tamaElem: document.querySelector('#display p'),
   _tamaSan: undefined,
   faces: [
-    '👶','👧','🧒','👦','👩','🧑','👨','👵','🧓','👴','💀'
+    '👶','👧','🧑','👩','👵','💀'
   ],
   // a setter to trigger stat display on creation of pet
   set tamaSan(tama) {
@@ -83,22 +116,15 @@ const game = {
   startGame(name,bday) {
     this.playerName = name;
     this.playerBirthdate = bday ? bday : '1996-09-06';
-    // this.updateDisplay();
-    const form = document.querySelector('#game form');
-    const bdayField = document.querySelector('#birthdate');
-    const gameArea = document.querySelector('#game');
-    form.removeChild(bdayField);
-    const newForm = form.cloneNode(true);
-    gameArea.removeChild(form);
-    gameArea.prepend(newForm);
+    this.form.removeChild(this.bday);
+    const newForm = this.form.cloneNode(true);
+    this.selfElem.removeChild(this.form);
+    this.selfElem.prepend(newForm);
     this.addNameListener(newForm);
   },
   // sets the scene to start the game
   initialize() {
-    const name = document.querySelector('#name');
-    const bday = document.querySelector('#birthdate');
-    const form = document.querySelector('#game form');
-    game.startGame(name.value,bday.value);
+    game.startGame(this.name.value,this.bday.value);
     // removing anonymous listeners is ~impossible in vanill JS so..
     // to change the form from being for your name to being for the pet's name
   },
@@ -123,6 +149,9 @@ const game = {
     game.updateDisplay();
     game.timeElapsed++;
     game._tamaSan.live();
+  },
+  setWidth() {
+    this.selfElem.style.width = this.selfElem.scrollWidth + 'px';
   }
 }
 
@@ -132,14 +161,11 @@ document.querySelector('form').addEventListener('submit', e => {
 })
 
 document.querySelector('#feed').addEventListener('click', e => {
-  game._tamaSan.hunger--;
-  game.updateMeters;
+  game._tamaSan.feeding = true;
 })
 document.querySelector('#lights').addEventListener('click', e => {
-  game._tamaSan.sleepiness--;
-  game.updateMeters;
+  game._tamaSan.asleep = true;
 })
 document.querySelector('#play').addEventListener('click', e => {
-  game._tamaSan.boredom--;
-  game.updateMeters;
+  game._tamaSan.playing = true;
 })
