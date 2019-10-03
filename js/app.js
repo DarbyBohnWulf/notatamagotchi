@@ -109,8 +109,8 @@ const game = {
     this.boredom.textContent = this._tamaSan.boredom;
   },
   updateDisplay() {
-    game.tamaElem.textContent = game._tamaSan.face;
-    game.updateMeters();
+    this.tamaElem.textContent = this._tamaSan.face;
+    this.updateMeters();
   },
   addNameListener(elem) {
     elem.addEventListener('submit', e => {
