@@ -116,6 +116,8 @@ const game = {
   startGame(name,bday) {
     this.playerName = name;
     this.playerBirthdate = bday ? bday : '1996-09-06';
+    // removing anonymous listeners is ~impossible in vanill JS so..
+    // to change the form from being for your name to being for the pet's name
     this.form.removeChild(this.bday);
     const newForm = this.form.cloneNode(true);
     this.selfElem.removeChild(this.form);
@@ -125,8 +127,6 @@ const game = {
   // sets the scene to start the game
   initialize() {
     game.startGame(this.name.value,this.bday.value);
-    // removing anonymous listeners is ~impossible in vanill JS so..
-    // to change the form from being for your name to being for the pet's name
   },
   // method to stop pet from reaching back and messing with things
   updateMeters() {
