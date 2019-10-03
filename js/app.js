@@ -42,7 +42,7 @@ class Tamagotchi {
       this.growUp();
     } else if (game.timeElapsed === 30) {
       this.growUp();
-    } else if (game.timeElapsed === 3) {
+    } else if (game.timeElapsed === 10) {
       this.growUp();
     }
   }
